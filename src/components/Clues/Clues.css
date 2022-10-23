@@ -1,0 +1,15 @@
+.clues-title {
+  font-size: 1.6em;
+  font-weight: bold;
+}
+
+.digit {
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+.clues-container {
+  justify-content: space-evenly;
+  display: flex;
+  flex-direction: column;
+}

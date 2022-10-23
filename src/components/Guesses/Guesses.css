@@ -1,0 +1,10 @@
+.guesses-title {
+  font-size: 1.6em;
+  font-weight: bold;
+}
+
+.guesses-container {
+  justify-content: space-evenly;
+  display: flex;
+  flex-direction: column;
+}
