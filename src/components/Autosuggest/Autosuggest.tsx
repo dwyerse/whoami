@@ -1,11 +1,8 @@
 import "./Autosuggest.css";
 import { matchSorter } from "match-sorter";
-import { useState } from "react";
 
 function Autosuggest(props: any) {
-  const { choices } = props;
-
-  const [filter, setFilter] = useState("");
+  const { choices, containerWidth, filter, setFilter } = props;
 
   const filteredChoices = matchSorter(choices, filter);
 
@@ -19,10 +16,11 @@ function Autosuggest(props: any) {
         value={filter}
       ></input>
       {filter && (
-        <div className="autosuggest-choices">
-          {filteredChoices.map((choice) => {
+        <div className="autosuggest-choices" style={{ width: containerWidth }}>
+          {filteredChoices.map((choice, index) => {
             return (
               <div
+                key={`filter${index}`}
                 className="choice"
                 onClick={(event: any) => {
                   console.log(event.target.outerText);

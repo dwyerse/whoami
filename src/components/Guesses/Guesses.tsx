@@ -9,7 +9,7 @@ export type GuessProps = {
 };
 
 function Guesses(props: GuessProps) {
-  const { guesses = [] } = props;
+  const { guesses } = props;
 
   return (
     <div className="guesses-container">
@@ -18,7 +18,7 @@ function Guesses(props: GuessProps) {
         const { text } = guess;
         return (
           <div key={`guesses-${index}`} className="guess">
-            {`❌ ${text}`}
+            <span className="digit">{index + 1}.</span> {text}
           </div>
         );
       })}

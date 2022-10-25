@@ -7,4 +7,12 @@
   justify-content: space-evenly;
   display: flex;
   flex-direction: column;
+  flex: 1;
+  min-width: 150px;
+}
+
+.guess {
+  max-width: 300px;
+  text-overflow: ellipsis;
+  min-height: 12px;
 }
