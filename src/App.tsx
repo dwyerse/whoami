@@ -1,26 +1,47 @@
 import "./App.css";
-import Autosuggest from "./components/Autosuggest/Autosuggest";
-import Button from "./components/Button/Button";
-import Clues from "./components/Clues/Clues";
 import Movies from "./Movies";
-import { Clue } from "./components/Clues/Clues";
-import Guesses from "./components/Guesses/Guesses";
-import { useRef, useLayoutEffect, useState } from "react";
-import useResizeObserver from "use-resize-observer";
+import { useState } from "react";
+import Header from "@cloudscape-design/components/header";
+import Container from "@cloudscape-design/components/container";
+import SpaceBetween from "@cloudscape-design/components/space-between";
+import Button from "@cloudscape-design/components/button";
+import AppLayout from "@cloudscape-design/components/app-layout";
+import {
+  applyMode,
+  applyDensity,
+  Density,
+  Mode,
+} from "@cloudscape-design/global-styles";
+import { Autosuggest, Grid } from "@cloudscape-design/components";
+
+export type Guess = {
+  text: string;
+};
+
+export type Clue = {
+  text: string;
+};
+
+applyMode(Mode.Dark);
+applyDensity(Density.Comfortable);
 
 function App() {
-  const movieList = Movies().map((movie: any) => {
-    return movie.label;
-  });
+  return <AppLayout navigationHide toolsHide content={<Content />}></AppLayout>;
+}
 
-  const { ref, width = 1 } = useResizeObserver<HTMLDivElement>();
+const Content = () => {
+  const movieList = () =>
+    Movies().map((movie: any) => {
+      return { value: movie.label };
+    });
+  const movies = movieList();
 
   const initialGuesses = [
-    { text: "" },
-    { text: "" },
-    { text: "" },
-    { text: "" },
-    { text: "" },
+    { text: "..." },
+    { text: "..." },
+    { text: "..." },
+    { text: "..." },
+    { text: "..." },
   ];
 
   const [filter, setFilter] = useState("");
@@ -30,45 +51,76 @@ function App() {
   const clues: Clue[] = [
     { text: "A movie from the 90s" },
     { text: "Staring Sean Connery" },
-    { text: "" },
-    { text: "" },
-    { text: "" },
+    { text: "..." },
+    { text: "..." },
+    { text: "..." },
   ];
 
   return (
-    <div className="main">
-      <div className="title">Who Am I?</div>
-      <div className="content-container">
-        <div className="central-content">
-          <div className="clues-answers-row">
-            <Clues clues={clues} />
-            <div className="divider"></div>
-            <Guesses guesses={guesses} />
-          </div>
+    <SpaceBetween size="l">
+      <Header variant="h1">Who Am I?</Header>
 
-          <div className="input-area" ref={ref}>
-            <Autosuggest
-              choices={movieList}
-              containerWidth={width}
-              filter={filter}
-              setFilter={setFilter}
-            />
-            <div style={{ marginLeft: 8 }}>
-              <Button
-                title={"Submit"}
-                onClick={() => {
-                  setFilter("");
-                  guesses[guessIndex] = { text: filter };
-                  setGuesses([...guesses]);
-                  setGuessIndex(guessIndex + 1);
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+      <Grid
+        gridDefinition={[
+          { colspan: { default: 12, xxs: 6 } },
+          { colspan: { default: 12, xxs: 6 } },
+        ]}
+      >
+        <Container>
+          <SpaceBetween size="s">
+            <Header variant="h2">Clues</Header>
+            {clues.map(({ text }, index) => {
+              return (
+                <strong>
+                  {index + 1}. {text}
+                </strong>
+              );
+            })}
+          </SpaceBetween>
+        </Container>
+        <Container>
+          <SpaceBetween size="s">
+            <Header variant="h2">Guesses</Header>
+            {guesses.map(({ text }: Guess, index) => {
+              return (
+                <strong>
+                  {index + 1}. {text}
+                </strong>
+              );
+            })}
+          </SpaceBetween>
+        </Container>
+      </Grid>
+
+      <Grid
+        gridDefinition={[
+          { colspan: { default: 12, xxs: 6 } },
+          { colspan: { default: 12, xxs: 6 } },
+        ]}
+      >
+        <Autosuggest
+          onChange={({ detail }) => setFilter(detail.value)}
+          value={filter}
+          options={movies}
+          enteredTextLabel={(value) => `Use: "${value}"`}
+          ariaLabel="Autosuggest example with suggestions"
+          placeholder="Enter value"
+          empty="No matches found"
+        />
+        <Button
+          variant="primary"
+          onClick={() => {
+            guesses[guessIndex] = { text: filter };
+            setGuesses([...guesses]);
+            setGuessIndex(guessIndex + 1);
+            setFilter("");
+          }}
+        >
+          Submit
+        </Button>
+      </Grid>
+    </SpaceBetween>
   );
-}
+};
 
 export default App;
