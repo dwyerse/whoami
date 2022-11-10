@@ -68,7 +68,7 @@ const Content = () => {
   const [guesses, setGuesses] = useState(initialGuesses);
 
   return (
-    <SpaceBetween size="l">
+    <SpaceBetween size="m">
       <Header variant="h1">Who Am I?</Header>
 
       <Grid
@@ -78,8 +78,8 @@ const Content = () => {
         ]}
       >
         <Container>
-          <SpaceBetween size="s">
-            <Header variant="h2">Clues</Header>
+          <SpaceBetween size="xs">
+            <Header variant="h3">Clues</Header>
             {clues.map(({ text }, index) => {
               if (index > guessIndex && gameState === GameStates.Pending) {
                 return <strong key={`clue-${index}`}>{index + 1}.</strong>;
@@ -94,8 +94,8 @@ const Content = () => {
           </SpaceBetween>
         </Container>
         <Container>
-          <SpaceBetween size="s">
-            <Header variant="h2">Guesses</Header>
+          <SpaceBetween size="xs">
+            <Header variant="h3">Guesses</Header>
             {guesses.map(({ text }: Guess, index) => {
               const icon = IconVariant(text, answer);
               if (index >= guessIndex) {
@@ -212,9 +212,9 @@ const getShareableString = (
     if (i > guessIndex - 1) {
       return shareableString;
     }
-    shareableString += answer === guesses[i].text ? "✔️" : "❌";
+    shareableString += answer === guesses[i].text ? "✅" : "❌";
   }
-  return "";
+  return shareableString;
 };
 
 const IconVariant = (guess: string, answer: string) => {
