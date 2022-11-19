@@ -29,7 +29,7 @@ const Clues: Clue[] = [
   },
   {
     name: "Winona Ryder",
-    clue1: "I am a woman born in the 1980s.",
+    clue1: "I am a woman born in the 1970s.",
     clue2: "My middle name is Laura",
     clue3: "I had my film debut in Lucas (1986)",
     clue4:
