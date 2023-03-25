@@ -161,7 +161,7 @@ const Content = () => {
             <SpaceBetween direction="horizontal" size="l">
               {gameState === GameStates.Success && <h1>Victory!</h1>}
               {gameState === GameStates.Failure && (
-                <h1>Best luck next time!</h1>
+                <h1>Better luck next time!</h1>
               )}
               {gameState === GameStates.Success && (
                 <Icon name="status-positive" size="large" variant="success" />
