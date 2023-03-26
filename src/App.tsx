@@ -14,14 +14,6 @@ import { applyMode, Mode } from "@cloudscape-design/global-styles";
 import { Answers } from "./Answers";
 import { getTodaysClue } from "./Clues";
 
-export type Guess = {
-  text: string;
-};
-
-export type Clue = {
-  text: string;
-};
-
 enum GameStates {
   Pending,
   Success,
@@ -47,21 +39,8 @@ const Content = () => {
   const { name, clue1, clue2, clue3, clue4, clue5 } = clue;
   const answer = name;
 
-  const clues: Clue[] = [
-    { text: clue1 },
-    { text: clue2 },
-    { text: clue3 },
-    { text: clue4 },
-    { text: clue5 },
-  ];
-
-  const initialGuesses = [
-    { text: "..." },
-    { text: "..." },
-    { text: "..." },
-    { text: "..." },
-    { text: "..." },
-  ];
+  const clues: string[] = [clue1, clue2, clue3, clue4, clue5];
+  const initialGuesses = ["...", "...", "...", "...", "..."];
 
   const [filter, setFilter] = useState("");
   const [guessIndex, setGuessIndex] = useState(0);
@@ -80,7 +59,7 @@ const Content = () => {
         <Container>
           <SpaceBetween size="xs">
             <Header variant="h3">Clues</Header>
-            {clues.map(({ text }, index) => {
+            {clues.map((text, index) => {
               if (index > guessIndex && gameState === GameStates.Pending) {
                 return <strong key={`clue-${index}`}>{index + 1}.</strong>;
               }
@@ -96,7 +75,7 @@ const Content = () => {
         <Container>
           <SpaceBetween size="xs">
             <Header variant="h3">Guesses</Header>
-            {guesses.map(({ text }: Guess, index) => {
+            {guesses.map((text, index) => {
               const icon = IconVariant(text, answer);
               if (index >= guessIndex) {
                 return <strong key={`guess-${index}`}>{index + 1}.</strong>;
@@ -143,7 +122,7 @@ const Content = () => {
                 } else if (guessIndex >= 4) {
                   setGameState(GameStates.Failure);
                 }
-                guesses[guessIndex] = { text: filter };
+                guesses[guessIndex] = filter;
                 setGuesses([...guesses]);
                 setGuessIndex(guessIndex + 1);
                 setFilter("");
@@ -202,7 +181,7 @@ const Content = () => {
 };
 
 const getShareableString = (
-  guesses: Guess[],
+  guesses: string[],
   guessIndex: number,
   answer: string
 ): string => {
@@ -212,7 +191,7 @@ const getShareableString = (
     if (i > guessIndex - 1) {
       return shareableString;
     }
-    shareableString += answer === guesses[i].text ? "✅" : "❌";
+    shareableString += answer === guesses[i] ? "✅" : "❌";
   }
   return shareableString;
 };
